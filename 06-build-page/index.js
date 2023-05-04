@@ -23,11 +23,15 @@ async function bundleHtml() {
         new fsClean.ReadStream(path.join(__dirname,"template.html")));
 
     for await (const line of rl) {
-        if(line.match(/{{[a-z]+}}/)) {
-            const name = line.replaceAll("{","").replaceAll("}","").trim()
-            const content = await fs.readFile(path.join(__dirname,"components",`${name}.html`))
-            writeStream.write(content);
-            writeStream.write(EOL);
+        const regexResult = line.match(/{{[a-z]+}}/g)
+        if(regexResult != null) {
+            for await (const subLine of regexResult) {
+                const name = subLine.replaceAll("{","").replaceAll("}","").trim()
+                const content = await fs.readFile(path.join(__dirname,"components",`${name}.html`))
+                writeStream.write(content);
+                writeStream.write(EOL);
+            }
+
         } else {
             writeStream.write(`${line}${EOL}`);
         }
