@@ -5,9 +5,7 @@ function readDir(currentPath) {
     fs.readdir(currentPath,{withFileTypes: true})
 .then(files => {
     for (const file of files) {
-        if(file.isDirectory()) {
-            readDir(path.join(currentPath,file.name))
-        } else {
+        if(!file.isDirectory()) {
             fs.stat(path.join(currentPath,file.name)).then(res => {
                 console.log(`${path.parse(file.name).name}-${path.extname(file.name).replace(".","")}-${res.size}`); 
             })
