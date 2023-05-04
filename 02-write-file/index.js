@@ -4,7 +4,7 @@ const { EOL } = require("os");
 const readline = require("readline");
 const readStream = process.stdin;
 const writeStream = new fs.WriteStream(path.join(__dirname,"text.txt"));
-const stopPhrase = "**exit**"
+const stopPhrase = "exit"
 
 const rl = readline.createInterface(readStream)
 
